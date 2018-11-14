@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 
 const connection = new Sequelize(process.env.DB_NAME_DEVELOPMENT, process.env.DB_USER_DEVELOPMENT, process.env.DB_PASS_DEVELOPMENT, {
   host: 'localhost',
-  dialect: 'mysql',
+  dialect: 'postgres',
 
   pool: {
     max: 5,

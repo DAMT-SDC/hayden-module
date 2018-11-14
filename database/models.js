@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
-const { connection } = require("./index.js");
+const Sequelize = require('sequelize');
+const { connection } = require('./index.js');
 
-const Product = connection.define("product", {
+const Product = connection.define('product', {
   name: {
     type: Sequelize.STRING
   },
@@ -35,13 +35,9 @@ const Product = connection.define("product", {
   category: {
     type: Sequelize.STRING
   }
-}, {
-    indexes: [
-      { type: 'FULLTEXT', name: 'search_idx', fields: ['name', 'team', 'sport', 'category', 'color', 'gender'] }
-    ]
-  });
+});
 
-const Category = connection.define("category", {
+const Category = connection.define('category', {
   name: {
     type: Sequelize.STRING
   },
