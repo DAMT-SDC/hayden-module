@@ -3,3 +3,4 @@ client/dist/bundle.js
 coverage
 .env
 docker
+database/seeds.csv

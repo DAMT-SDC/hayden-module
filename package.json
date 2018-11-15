@@ -9,7 +9,7 @@
     "verbose": true
   },
   "scripts": {
-    "seed": "node database/seeds.js",
+    "seed": "node --max-old-space-size=8000 database/seeds.js",
     "test": "jest --detectOpenHandles",
     "lint": "eslint --ignore-path .gitignore .",
     "react-dev": "webpack -w",
@@ -38,9 +38,12 @@
     "classnames": "^2.2.6",
     "cli": "^1.0.1",
     "cors": "^2.8.5",
+    "csv-write-stream": "^2.0.0",
+    "csv-writer": "^1.2.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "faker": "^4.1.0",
+    "fs": "0.0.1-security",
     "merge": ">=1.2.1",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
