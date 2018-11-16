@@ -15,8 +15,7 @@
     "react-dev": "webpack -w",
     "start": "nodemon server/index.js",
     "validate": "npm-run-all --parallel test lint",
-    "build": "webpack",
-    "precommit": "npm run validate"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -43,6 +42,7 @@
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "merge": ">=1.2.1",
+    "mongoose": "^5.3.12",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
     "node": "^10.12.0",

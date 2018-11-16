@@ -1,57 +1,33 @@
-const Sequelize = require("sequelize");
-const { connection } = require("./index.js");
+const mongoose = require('mongoose');
 
-const Product = connection.define("product", {
-  name: {
-    type: Sequelize.STRING
-  },
-  price: {
-    type: Sequelize.INTEGER
-  },
-  salePrice: {
-    type: Sequelize.INTEGER
-  },
-  sport: {
-    type: Sequelize.STRING
-  },
-  color: {
-    type: Sequelize.STRING
-  },
-  team: {
-    type: Sequelize.STRING
-  },
-  rating: {
-    type: Sequelize.FLOAT
-  },
-  num_ratings: {
-    type: Sequelize.INTEGER
-  },
-  imageUrl: {
-    type: Sequelize.STRING
-  },
-  gender: {
-    type: Sequelize.STRING
-  },
-  category: {
-    type: Sequelize.STRING
-  }
-}, {
-    indexes: [
-      { type: 'FULLTEXT', name: 'search_idx', fields: ['name', 'team', 'sport', 'category', 'color', 'gender'] }
-    ]
-  });
+const productSchema = new mongoose.Schema({
+  name: String,
+  price: String,
+  salePrice: Number,
+  sport: String,
+  color: String,
+  team: String,
+  rating: Number,
+  num_ratings: Number,
+  imageUrl: String,
+  gender: String,
+  category: String
+})
 
-const Category = connection.define("category", {
-  name: {
-    type: Sequelize.STRING
-  },
-  gender: {
-    type: Sequelize.STRING
-  },
-  featured: {
-    type: Sequelize.BOOLEAN
-  }
-});
+const Product = mongoose.model('Product', productSchema);
+
+
+// const Category = connection.define("category", {
+//   name: {
+//     type: Sequelize.STRING
+//   },
+//   gender: {
+//     type: Sequelize.STRING
+//   },
+//   featured: {
+//     type: Sequelize.BOOLEAN
+//   }
+// });
 
 // Category.sync().then(() => {
 //   console.log("successfully created Category table!");
@@ -62,4 +38,4 @@ const Category = connection.define("category", {
 // });
 
 module.exports.Product = Product;
-module.exports.Category = Category;
+// module.exports.Category = Category;

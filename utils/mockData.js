@@ -2,11 +2,9 @@
 The functions in this file generates instance of the Product model of the following types:
 Basketball shoes, football shoes, sandles and slides, soccer shoes, original shoes, hoodies
 running shoes, pants, backpacks, and hats.
-
 All of these types of data follow the Product schema. But some of these types of products
 fill out the product schema more completely than others. A football cleat
 record, for example, might be nearly complete.:
-
 {
   name: 'Dallas Cowboys Football Cleat'
   price: 261,
@@ -20,9 +18,7 @@ record, for example, might be nearly complete.:
   gender: 'Children',
   category: 'Shoe'
 }
-
 Whereas, attributes of the schema like 'sport' and 'team' are irrelevant to pants.
-
 {
   name: 'East Taryn Pants'
   price: 72,
@@ -36,11 +32,9 @@ Whereas, attributes of the schema like 'sport' and 'team' are irrelevant to pant
   gender: 'Men',
   category: 'Pants'
 }
-
 For this reason, the functions in this file use the factory, decorator pattern. All product records
 are initialized using the generateProduct() factory function. After that, the records pass variously
 through the hoodiePantsBackpackHatDecorator(), shoeDecorator(), etc.
-
 */
 
 const faker = require("faker");
@@ -57,7 +51,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const generateImageUrl = (imgId, imgFileName) => `http://demandware.edgesuite.net/sits_pod20-adidas/dw/image/v2/aaqx_prd/on/demandware.static/-/Sites-adidas-products/en_US/${imgId}/zoom/${imgFileName}?sh=${64}`
+// const generateImageUrl = (imgId, imgFileName) => `http://demandware.edgesuite.net/sits_pod20-adidas/dw/image/v2/aaqx_prd/on/demandware.static/-/Sites-adidas-products/en_US/${imgId}/zoom/${imgFileName}?sh=${64}`
 
 
 const hoodiePantsBackpackHatDecorator = (() => {
@@ -94,17 +88,17 @@ const hoodiePantsBackpackHatDecorator = (() => {
 
     if (decoratedProduct.category === 'Hoodie') {
       shoeApiData = hoodies[getRandomInt(0, hoodies.length)];
-      decoratedProduct.imageUrl = generateImageUrl(shoeApiData.images[0].id, shoeApiData.images[0].fileName);
+      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}?lock=${Math.floor(Math.random() * 1000)}`;
     } else if (decoratedProduct.category === 'Pants') {
       shoeApiData = pants[getRandomInt(0, pants.length)];
-      decoratedProduct.imageUrl = generateImageUrl(shoeApiData.images[0].id, shoeApiData.images[0].fileName);
+      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}?lock=${Math.floor(Math.random() * 1000)}`;
     } else if (decoratedProduct.category === 'Backpack') {
-      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}/all`;
+      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}?lock=${Math.floor(Math.random() * 1000)}`;
     } else if (decoratedProduct.category === 'Hat') {
       shoeApiData = hats[getRandomInt(0, hats.length)];
-      decoratedProduct.imageUrl = generateImageUrl(shoeApiData.images[0].id, shoeApiData.images[0].fileName);
+      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}?lock=${Math.floor(Math.random() * 1000)}`;
     } else if (decoratedProduct.category === 'Sandle') {
-      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}/all`;
+      decoratedProduct.imageUrl = `https://loremflickr.com/320/240/${decoratedProduct.category}?lock=${Math.floor(Math.random() * 1000)}`;
     }
 
     decoratedProduct.name = `${faker.fake("{{address.city}}")} ${decoratedProduct.category}`;
@@ -145,7 +139,7 @@ const shoeDecorator = (() => {
     const imgId = shoeApiData.images[0].id;
     const imgFileName = shoeApiData.images[0].fileName;
 
-    shoe.imageUrl = `http://demandware.edgesuite.net/sits_pod20-adidas/dw/image/v2/aaqx_prd/on/demandware.static/-/Sites-adidas-products/en_US/${imgId}/zoom/${imgFileName}?sh=${64}`;
+    shoe.imageUrl = `https://loremflickr.com/320/240/${shoe.sport}?lock=${Math.floor(Math.random() * 1000)}`;
 
     // TODO DRY!
     if (shoe.sport === 'Football' && shoe.team) {
