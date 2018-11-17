@@ -35,14 +35,15 @@ router.route('/search')
       limit: 4,
       where: {
         $or: [
-          { name: { $like: `%${query}%` } },
-          { team: { $like: `%${query}%` } },
-          { sport: { $like: `%${query}%` } },
-          { category: { $like: `%${query}%` } },
-          { color: { $like: `%${query}%` } },
-          { gender: { $like: `${query}%` } }
+          { name: { $ilike: `%${query}%` } },
+          { team: { $ilike: `%${query}%` } },
+          { sport: { $ilike: `%${query}%` } },
+          { category: { $ilike: `%${query}%` } },
+          { color: { $ilike: `%${query}%` } },
+          { gender: { $ilike: `%${query}%` } }
         ]
-      }
+      },
+      benchmark: true,
     }).then((response) => {
       res.send(response);
     })
@@ -69,7 +70,39 @@ router.route('/search/suggestions')
       res.send('');
     } else {
 
-      connection.query(suggestionQuery(), { replacements: Array(6).fill(query), type: sequelize.QueryTypes.SELECT })
+      connection.query(`SELECT NameMatch, TeamMatch, SportMatch, CategoryMatch, ColorMatch, GenderMatch FROM (
+        SELECT name,
+           CASE
+             WHEN name ILIKE '%${query}%' THEN name
+            END AS NameMatch,
+      
+            team,
+             CASE
+             WHEN team ILIKE '%${query}%' THEN team
+            END AS TeamMatch,
+      
+            sport,
+              CASE
+              WHEN sport ILIKE '%${query}%' THEN sport
+            END AS SportMatch,
+      
+            category,
+              CASE
+              WHEN category ILIKE '%${query}%' THEN category
+            END AS CategoryMatch,
+      
+            color,
+              CASE
+              WHEN color ILIKE '%${query}%' THEN color
+            END AS ColorMatch,
+      
+           gender,
+           CASE
+             WHEN gender ILIKE '%${query}%' THEN gender
+           END AS GenderMatch
+      
+          FROM products AS T
+      ) AS T WHERE NameMatch IS NOT NULL OR TeamMatch IS NOT NULL OR SportMatch IS NOT NULL OR CategoryMatch IS NOT NULL OR ColorMatch IS NOT NULL OR GenderMatch IS NOT NULL;`, {type: sequelize.QueryTypes.SELECT , benchmark: true})
         .then((responseArray) => {
           if (responseArray.length > 0) {
             const counts = {};
@@ -95,7 +128,6 @@ router.route('/search/suggestions')
 
             countsArray.sort((aTuple, bTuple) => bTuple.count - aTuple.count)
 
-
             res.send(countsArray.slice(0, 10));
           } else {
             res.send(responseArray);
@@ -105,3 +137,4 @@ router.route('/search/suggestions')
   })
 
 module.exports = router;
+
