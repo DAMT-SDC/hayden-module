@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // TODO source these attributes from a .env file
 
 mongoose.connect('mongodb://localhost/shoedidas_header');
+mongoose.set('debug', true);
 
 const { connection } = mongoose;
 
