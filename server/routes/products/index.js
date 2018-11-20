@@ -44,7 +44,6 @@ router.route('/search').get((req, res) => {
     .limit(4)
     .exec((err, response) => {
       if (err) console.error(err);
-      console.log(response);
       res.send(response);
     });
 });
@@ -72,24 +71,26 @@ router.route('/search/suggestions').get((req, res) => {
     Product.aggregate([
       {
         $match: {
-          name: 'Kristy TF Running Shoe',
-          team: 'Running',
-          category: 'Running',
-          color: 'Running',
-          gender: 'Running'
+          $or: [
+            { name: match },
+            { team: match },
+            { category: match },
+            { color: match },
+            { gender: match }
+          ]
+        }
+      },
+      {
+        $project: {
+          NameMatch: '$name',
+          TeamMatch: '$team',
+          CategoryMatch: '$category',
+          ColorMatch: '$color',
+          GenderMatch: '$gender'
         }
       }
-      // {
-      //   $project: {
-      //     NameMatch: '$name',
-      //     TeamMatch: '$team',
-      //     CategoryMatch: '$category',
-      //     ColorMatch: '$color',
-      //     GenderMatch: '$match'
-      //   }
-      // }
     ])
-      .limit(10)
+      .limit(50)
 
       .exec((err, responseArray) => {
         if (err) console.error(err);
@@ -127,5 +128,3 @@ router.route('/search/suggestions').get((req, res) => {
 });
 
 module.exports = router;
-
-
