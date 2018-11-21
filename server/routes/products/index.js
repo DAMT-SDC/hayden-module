@@ -74,6 +74,7 @@ router.route('/search/suggestions').get((req, res) => {
           $or: [
             { name: match },
             { team: match },
+            { sport: match },
             { category: match },
             { color: match },
             { gender: match }
@@ -90,18 +91,22 @@ router.route('/search/suggestions').get((req, res) => {
         }
       }
     ])
-      .limit(50)
+
 
       .exec((err, responseArray) => {
         if (err) console.error(err);
-        console.log(responseArray);
+        // console.log(responseArray);
+        console.time('test')
         if (responseArray.length > 0) {
           const counts = {};
           const keys = Object.keys(responseArray[0]);
 
           for (let i = 0; i < responseArray.length; i += 1) {
             keys.forEach(key => {
-              if (responseArray[i][key] !== null) {
+              if (
+                responseArray[i][key] !== null ||
+                responseArray[i][key] !== ''
+              ) {
                 if (counts[responseArray[i][key]]) {
                   counts[responseArray[i][key]] += 1;
                 } else {
@@ -123,8 +128,10 @@ router.route('/search/suggestions').get((req, res) => {
         } else {
           res.send(responseArray);
         }
+        console.timeEnd('test')
       });
   }
 });
 
 module.exports = router;
+
