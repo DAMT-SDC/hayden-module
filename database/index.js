@@ -11,10 +11,10 @@ const connection = new Sequelize(
     dialect: 'postgres',
 
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       acquire: 30000,
-      idle: 10000
+      idle: 20000
     }
   }
 );

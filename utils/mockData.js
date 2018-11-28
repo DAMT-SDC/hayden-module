@@ -116,7 +116,7 @@ const shoeDecorator = (() => {
   const nfl = teamNames.filter((team) => team.league === "nfl");
   const mls = teamNames.filter((team) => team.league === "mls");
   const nba = teamNames.filter((team) => team.league === "nba");
-  const sportsForMock = ["Basketball", "Football", null, "Soccer", "Running"];
+  const sportsForMock = ["Basketball", "Football", "Baseball", "Soccer", "Running"];
 
   return (product) => {
 
@@ -124,7 +124,7 @@ const shoeDecorator = (() => {
 
     let shoeApiData;
 
-    if (shoe.category === 'Shoe') {
+    if (shoe.category === 'Shoe' || shoe.category === 'Sandle') {
       shoe.sport = sportsForMock[getRandomInt(0, sportsForMock.length)];
     }
 

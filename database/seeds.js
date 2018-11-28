@@ -1,5 +1,6 @@
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const { Product } = require('./models');
+const { Suggestions } = require('./models');
 const { generateProduct } = require('../utils/mockData.js');
 
 let id = 1;
@@ -8,7 +9,7 @@ const csvWriter = createCsvWriter({
   path: './database/seeds.csv',
   append: true,
   header: [
-    { id: 'id', title: 'ID'},
+    { id: 'id', title: 'ID' },
     { id: 'name', title: 'NAME' },
     { id: 'price', title: 'PRICE' },
     { id: 'salePrice', title: 'SALEPRICE' },
@@ -32,12 +33,13 @@ const categoriesForMock = [
   { name: 'Hat', numItemsToGenerate: 10000 }
 ];
 
+
 const generateResultsArray = () => {
   const results = [];
   categoriesForMock.forEach(category => {
     for (let i = 0; i < category.numItemsToGenerate; i += 1) {
       const obj = generateProduct(category.name);
-      obj['id'] = id;
+      obj.id = id;
       results.push(obj);
       id += 1;
     }
@@ -47,9 +49,8 @@ const generateResultsArray = () => {
 
 for (let i = 0; i < 100; i++) {
   csvWriter.writeRecords(generateResultsArray());
-  console.log(i)
+  console.log(i);
 }
-
 
 // Product.sync({ force: false }).then(() => {
 //   categoriesForMock.forEach(category => {

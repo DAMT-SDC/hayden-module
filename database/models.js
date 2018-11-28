@@ -1,53 +1,57 @@
 const Sequelize = require('sequelize');
 const { connection } = require('./index.js');
 
-const Product = connection.define('product', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+const Product = connection.define(
+  'products',
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: Sequelize.STRING(50)
+    },
+    price: {
+      type: Sequelize.INTEGER
+    },
+    saleprice: {
+      type: Sequelize.INTEGER
+    },
+    sport: {
+      type: Sequelize.STRING(25)
+    },
+    color: {
+      type: Sequelize.STRING(25)
+    },
+    team: {
+      type: Sequelize.STRING(25)
+    },
+    rating: {
+      type: Sequelize.FLOAT
+    },
+    num_ratings: {
+      type: Sequelize.INTEGER
+    },
+    imageurl: {
+      type: Sequelize.STRING(100)
+    },
+    gender: {
+      type: Sequelize.STRING(25)
+    },
+    category: {
+      type: Sequelize.STRING(25)
+    }
   },
-  name: {
-    type: Sequelize.STRING
-  },
-  price: {
-    type: Sequelize.INTEGER
-  },
-  saleprice: {
-    type: Sequelize.INTEGER
-  },
-  sport: {
-    type: Sequelize.STRING
-  },
-  color: {
-    type: Sequelize.STRING
-  },
-  team: {
-    type: Sequelize.STRING
-  },
-  rating: {
-    type: Sequelize.FLOAT
-  },
-  num_ratings: {
-    type: Sequelize.INTEGER
-  },
-  imageurl: {
-    type: Sequelize.STRING
-  },
-  gender: {
-    type: Sequelize.STRING
-  },
-  category: {
-    type: Sequelize.STRING
+  {
+    createdAt: false,
+    updatedAt: false
   }
-}, {
-  createdAt: false,
-  updatedAt: false
-});
+);
 
 // const Category = connection.define('category', {
 //   name: {
-//     type: Sequelize.STRING
+//     type: Sequelize.STRING(25)
 //   },
 //   gender: {
 //     type: Sequelize.STRING
@@ -61,9 +65,34 @@ const Product = connection.define('product', {
 //   console.log("successfully created Category table!");
 // });
 
-// Product.sync().then(() => {
-//   console.log("successfully created Product table!");
+const Suggestions = connection.define(
+  'suggestions',
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: Sequelize.STRING(50)
+    },
+    count: {
+      type: Sequelize.INTEGER
+    }
+  },
+  {
+    createdAt: false,
+    updatedAt: false
+  }
+);
+
+// Product.sync({ force: true }).then(() => {
+//   console.log('successfully created Product table!');
+// });
+
+// Suggestions.sync({ force: true }).then(() => {
+//   console.log('successfully created Suggestions table!');
 // });
 
 module.exports.Product = Product;
-// module.exports.Category = Category;
+module.exports.Suggestions = Suggestions;

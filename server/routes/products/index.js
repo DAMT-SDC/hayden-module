@@ -102,8 +102,9 @@ router.route('/search/suggestions')
            END AS GenderMatch
       
           FROM products AS T
-      ) AS T WHERE NameMatch IS NOT NULL OR TeamMatch IS NOT NULL OR SportMatch IS NOT NULL OR CategoryMatch IS NOT NULL OR ColorMatch IS NOT NULL OR GenderMatch IS NOT NULL;`, {type: sequelize.QueryTypes.SELECT , benchmark: true})
+      ) AS T WHERE NameMatch IS NOT NULL OR TeamMatch IS NOT NULL OR SportMatch IS NOT NULL OR CategoryMatch IS NOT NULL OR ColorMatch IS NOT NULL OR GenderMatch IS NOT NULL LIMIT 30;`, {type: sequelize.QueryTypes.SELECT , benchmark: true})
         .then((responseArray) => {
+          console.log(responseArray)
           if (responseArray.length > 0) {
             const counts = {};
             const keys = Object.keys(responseArray[0]);
@@ -127,6 +128,8 @@ router.route('/search/suggestions')
             })
 
             countsArray.sort((aTuple, bTuple) => bTuple.count - aTuple.count)
+
+            console.log(countsArray)
 
             res.send(countsArray.slice(0, 10));
           } else {
