@@ -70,73 +70,77 @@ router.route('/search/suggestions')
       res.send('');
     } else {
 
-      connection.query(`SELECT NameMatch, TeamMatch, SportMatch, CategoryMatch, ColorMatch, GenderMatch FROM (
-        SELECT name,
-           CASE
-             WHEN name ILIKE '%${query}%' THEN name
-            END AS NameMatch,
+      // connection.query(`SELECT NameMatch, TeamMatch, SportMatch, CategoryMatch, ColorMatch, GenderMatch FROM (
+      //   SELECT name,
+      //      CASE
+      //        WHEN name ILIKE '%${query}%' THEN name
+      //       END AS NameMatch,
       
-            team,
-             CASE
-             WHEN team ILIKE '%${query}%' THEN team
-            END AS TeamMatch,
+      //       team,
+      //        CASE
+      //        WHEN team ILIKE '%${query}%' THEN team
+      //       END AS TeamMatch,
       
-            sport,
-              CASE
-              WHEN sport ILIKE '%${query}%' THEN sport
-            END AS SportMatch,
+      //       sport,
+      //         CASE
+      //         WHEN sport ILIKE '%${query}%' THEN sport
+      //       END AS SportMatch,
       
-            category,
-              CASE
-              WHEN category ILIKE '%${query}%' THEN category
-            END AS CategoryMatch,
+      //       category,
+      //         CASE
+      //         WHEN category ILIKE '%${query}%' THEN category
+      //       END AS CategoryMatch,
       
-            color,
-              CASE
-              WHEN color ILIKE '%${query}%' THEN color
-            END AS ColorMatch,
+      //       color,
+      //         CASE
+      //         WHEN color ILIKE '%${query}%' THEN color
+      //       END AS ColorMatch,
       
-           gender,
-           CASE
-             WHEN gender ILIKE '%${query}%' THEN gender
-           END AS GenderMatch
+      //      gender,
+      //      CASE
+      //        WHEN gender ILIKE '%${query}%' THEN gender
+      //      END AS GenderMatch
       
-          FROM products AS T
-      ) AS T WHERE NameMatch IS NOT NULL OR TeamMatch IS NOT NULL OR SportMatch IS NOT NULL OR CategoryMatch IS NOT NULL OR ColorMatch IS NOT NULL OR GenderMatch IS NOT NULL LIMIT 30;`, {type: sequelize.QueryTypes.SELECT , benchmark: true})
-        .then((responseArray) => {
-          console.log(responseArray)
-          if (responseArray.length > 0) {
-            const counts = {};
-            const keys = Object.keys(responseArray[0]);
+      //     FROM products AS T
+      // ) AS T WHERE NameMatch IS NOT NULL OR TeamMatch IS NOT NULL OR SportMatch IS NOT NULL OR CategoryMatch IS NOT NULL OR ColorMatch IS NOT NULL OR GenderMatch IS NOT NULL LIMIT 30;`, {type: sequelize.QueryTypes.SELECT , benchmark: true})
+      //   .then((responseArray) => {
+      //     console.log(responseArray)
+      //     if (responseArray.length > 0) {
+      //       const counts = {};
+      //       const keys = Object.keys(responseArray[0]);
 
-            for (let i = 0; i < responseArray.length; i += 1) {
-              keys.forEach((key) => {
-                if (responseArray[i][key] !== null) {
-                  if (counts[responseArray[i][key]]) {
-                    counts[responseArray[i][key]] += 1;
-                  } else {
-                    counts[responseArray[i][key]] = 1;
-                  }
-                }
-              })
-            }
+      //       for (let i = 0; i < responseArray.length; i += 1) {
+      //         keys.forEach((key) => {
+      //           if (responseArray[i][key] !== null) {
+      //             if (counts[responseArray[i][key]]) {
+      //               counts[responseArray[i][key]] += 1;
+      //             } else {
+      //               counts[responseArray[i][key]] = 1;
+      //             }
+      //           }
+      //         })
+      //       }
 
-            const countsArray = [];
+      //       const countsArray = [];
 
-            Object.keys(counts).forEach((key) => {
-              countsArray.push({ match: key, count: counts[key] });
-            })
+      //       Object.keys(counts).forEach((key) => {
+      //         countsArray.push({ match: key, count: counts[key] });
+      //       })
 
-            countsArray.sort((aTuple, bTuple) => bTuple.count - aTuple.count)
+      //       countsArray.sort((aTuple, bTuple) => bTuple.count - aTuple.count)
 
-            console.log(countsArray)
+      //       console.log(countsArray)
 
-            res.send(countsArray.slice(0, 10));
-          } else {
-            res.send(responseArray);
-          }
+      connection
+        .query(`SELECT name, count FROM suggestions WHERE name ILIKE '%${query}%' ORDER BY count DESC LIMIT 10;`, {
+          type: sequelize.QueryTypes.SELECT,
+          benchmark: true
         })
-    }
+        .then(responseArray => {
+          console.log(responseArray)
+          res.send(responseArray)
+        })
+      }
   })
 
 module.exports = router;

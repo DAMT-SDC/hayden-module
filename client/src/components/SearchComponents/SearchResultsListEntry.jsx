@@ -37,7 +37,7 @@ const SearchResultsListEntry = (props) => (
         <span className={styles.numReviews}>{" " + props.searchResult.num_ratings}</span>
       </div>
     </div>
-    <img src={props.searchResult.imageUrl}></img>
+    <img src={props.searchResult.imageurl}></img>
   </li>
 )
 
